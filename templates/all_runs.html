@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+{% block header %}
+  <h1>All Runs</h1>
+{% endblock %}
+
+{% block body %}
+  <ul>
+    {% for run in runs %}
+      <li id="{{ run[0] }}">{{ run[1] }}: {{ run[2] }} miles <a href="{{ url_for('delete', id=run[0])}}">Delete</a></li>
+    {% endfor %}
+  </ul>
+{% endblock %}

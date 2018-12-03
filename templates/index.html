@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+{% block header %}
+  <h1>{{ name }}'s Running Log</h1>
+{% endblock %}
+
+{% block body %}
+  <h2>Recent Runs:</h2>
+  <ul>
+    {% for run in runs %}
+    <li>{{ run[0] }}: {{ run[1] }} miles</li>
+    {% endfor %}
+  </ul>
+  <p>Average distance of all runs: {{ avg }} miles</p>
+{% endblock %}

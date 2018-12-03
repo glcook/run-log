@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+{% block header %}
+  <div class="container">
+    <h1>Log a Run</h1>
+  </div>
+{% endblock %}
+
+{% block body %}
+  <form method="POST">
+    <label for="dt">Date</label>
+    <input type="date" id="dt" name="date">
+    <label for="dist">Distance</label>
+    <input type="number" step="0.1" id="dist" name="distance">
+    <label for="hrs">Hours</label>
+    <input type="number" id="hrs" name="hours">
+    <label for="mins">Minutes</label>
+    <input type="number" id="mins" name="minutes">
+    <label for="secs">Seconds</label>
+    <input type="number" id="secs" name="seconds">
+    <input type="submit" value="Log Run">
+  </form>
+{% endblock %}
