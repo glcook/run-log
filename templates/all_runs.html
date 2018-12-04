@@ -4,9 +4,13 @@
 {% endblock %}
 
 {% block body %}
+{% for run in runs %}
+  <h4 id="{{ run[0] }}">{{ run[1] }}<h4>
   <ul>
-    {% for run in runs %}
-      <li id="{{ run[0] }}">{{ run[1] }}: {{ run[2] }} miles <a href="{{ url_for('delete', id=run[0])}}">Delete</a></li>
-    {% endfor %}
+      <li>Distance: {{ run[2] }}</li>
+      <li>Time: {{ run[3] }}</li>
+      <li>Pace: {{ run[4] }}</li>
+      <li><a href="{{ url_for('delete', id=run[0])}}">Delete</a></li>
   </ul>
+{% endfor %}
 {% endblock %}

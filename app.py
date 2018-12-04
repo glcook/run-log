@@ -3,7 +3,7 @@ import os
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
-from helper_funcs import null_to_zero
+from helper_funcs import null_to_zero, time_to_string, time_to_pace
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -20,15 +20,31 @@ def index():
         uid = result1[0]
         name = result1[1]
 
-        result2 = db.execute(f"SELECT date, dist FROM runs WHERE user_id = '{uid}' ORDER BY date DESC LIMIT 3").fetchall()
+        result2 = db.execute(f"SELECT date, dist, dur_secs FROM runs WHERE user_id = '{uid}' ORDER BY date DESC LIMIT 3").fetchall()
         recent_runs = []
         for row in result2:
-            recent_runs.append([row[0], row[1]])
+            time = time_to_string(row[2])
+            recent_runs.append([row[0], row[1], time])
 
         result3 = db.execute(f"SELECT AVG(dist) FROM runs WHERE user_id = '{uid}'").fetchone()
         avg_dist = result3[0]
 
-        return(render_template('index.html', name=name, runs=recent_runs, avg=avg_dist))
+        if avg_dist is None:
+            avg_dist = 'NA'
+        else:
+            avg_dist = str(round(avg_dist, 1)) + ' miles'
+
+        result4 = db.execute(f"SELECT SUM(dist), SUM(dur_secs) FROM runs WHERE user_id = '{uid}' AND dur_secs > 0").fetchone()
+        avg_pace = ''
+
+        if result4[0] is None or result4[1] is None:
+            avg_pace = 'NA'
+
+        else:
+            avg_pace = time_to_pace(result4[1] / result4[0]) + " minutes per mile"
+
+
+        return(render_template('index.html', name=name, runs=recent_runs, avg_dist=avg_dist, avg_pace=avg_pace))
 
     return redirect(url_for('login'))
 
@@ -63,23 +79,10 @@ def login():
             return render_template('message.html', message=message)
 
         elif check_password_hash(retrieved[2], pw_entered):
-        #elif pw_entered == retrieved[2]:
             session['user'] = un_entered
             name = retrieved[0]
 
-            result1 = db.execute(f"SELECT id FROM users WHERE username = '{un_entered}'").fetchone()
-            uid = result1[0]
-
-            result2 = db.execute(f"SELECT date, dist FROM runs WHERE user_id = '{uid}' ORDER BY date DESC LIMIT 3").fetchall()
-
-            recent_runs = []
-            for row in result2:
-                recent_runs.append([row[0], row[1]])
-
-            result3 = db.execute(f"SELECT AVG(dist) FROM runs WHERE user_id = '{uid}'").fetchone()
-            avg_dist = result3[0]
-
-            return(render_template('index.html', name=name, runs=recent_runs, avg=avg_dist))
+            return redirect(url_for('index'))
 
         else:
             message = 'Incorrect password.'
@@ -97,14 +100,15 @@ def log_run():
             minutes = null_to_zero(request.form['minutes'])
             seconds = null_to_zero(request.form['seconds'])
 
+            total_duration_seconds = (hours * 60 * 60) + (minutes * 60) + seconds
 
             un = session['user']
             result = db.execute(f"SELECT id FROM users WHERE username = '{un}'").fetchone()
             uid = result[0]
 
-            db.execute("INSERT INTO runs (user_id, date, dist, hrs, mins, secs) \
-                VALUES (:user_id, :date, :dist, :hrs, :mins, :secs)", \
-                {"user_id": uid, "date": date, "dist": distance, "hrs": hours, "mins": minutes, "secs": seconds})
+            db.execute("INSERT INTO runs (user_id, date, dist, dur_secs) \
+                VALUES (:user_id, :date, :dist, :dur_secs)", \
+                {"user_id": uid, "date": date, "dist": distance, "dur_secs": total_duration_seconds})
             db.commit()
             return redirect(url_for('index'))
 
@@ -119,11 +123,15 @@ def all_runs():
         result1 = db.execute(f"SELECT id FROM users WHERE username = '{un}'").fetchone()
         uid = result1[0]
 
-        result2 = db.execute(f"SELECT id, date, dist FROM runs WHERE user_id = '{uid}' ORDER BY date DESC").fetchall()
+        result2 = db.execute(f"SELECT id, date, dist, dur_secs FROM runs WHERE user_id = '{uid}' ORDER BY date DESC").fetchall()
         runs = []
 
         for row in result2:
-            runs.append([row[0], row[1], row[2]])
+            if row[2] > 0:
+                time = time_to_string(row[3])
+                pace = time_to_pace(row[3] / row[2])
+                dist = str(round(row[2], 1)) + " miles"
+            runs.append([row[0], row[1], dist, time, pace])
 
         return  render_template('all_runs.html', runs=runs)
 
