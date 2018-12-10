@@ -1,0 +1,81 @@
+.navbar {
+  background-color: #1a4b9b;
+  opacity: 0.9;
+}
+
+.body-inner {
+  padding-top: 100px;
+}
+
+#login-body-section {
+  background: url(../images/runner1.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  min-height: 700px;
+}
+
+#login-body-section .dark-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 700px;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.footer-copyright {
+  background-color: #ff0707;
+  opacity: 0.75;
+  color: white;
+}
+
+#login-card {
+  background-color: #1a4b9b;
+  opacity: 0.9;
+  color: white;
+  border: none;
+}
+
+#login-card .card-header {
+  border-bottom: none;
+  background-color: #1a4b9b;
+}
+
+.card-body a {
+  color: white;
+}
+
+#home-body-section {
+  background: url(../images/runner2.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  min-height: 900px;
+}
+
+#home-body-section .dark-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 900px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+}
+
+#home-body-section .card {
+  background-color: #1a4b9b;
+  opacity: 0.9;
+  border: none;
+}
+
+#home-body-section .card-header {
+  background-color: #1a4b9b;
+  font-size: 1.75rem;
+  border-bottom: none;
+}
+
+#home-body-section .card-body {
+  padding-top: 0px;
+}
