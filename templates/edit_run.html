@@ -1,0 +1,89 @@
+{% extends 'layout.html' %} {% block header %}
+<div class="container"><h1>Log a Run</h1></div>
+{% endblock %} {% block body %}
+<div class="container h-100">
+  <br />
+  <div class="row">
+    <h1 class="col-12 display-3 text-center my-5 resp-header">Edit Run</h1>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <form method="POST">
+        <div class="form-group text-center">
+          <div class="input-group input-group-lg mb-2">
+            <div class="input-group-prepend w-25">
+              <span class="input-group-text w-100 text-lg">Date</span>
+            </div>
+            <input
+              class="form-control form-control-lg"
+              type="date"
+              name="date"
+              value="{{ run[1] }}"
+            />
+          </div>
+          <div class="input-group input-group-lg mb-2">
+            <div class="input-group-prepend w-25">
+              <span class="input-group-text w-100">Distance</span>
+            </div>
+            <input
+              class="form-control form-control-lg"
+              type="number"
+              step="0.1"
+              name="distance"
+              placeholder="Distance (miles)"
+              value="{{ run[2] }}"
+            />
+          </div>
+          <div class="input-group input-group-lg mb-2">
+            <div class="input-group-prepend w-25">
+              <span class="input-group-text w-100">Hours</span>
+            </div>
+            <input
+              class="form-control form-control-lg"
+              type="number"
+              name="hours"
+              placeholder="Hours"
+              value="{{ run[3] }}"
+            />
+          </div>
+          <div class="input-group input-group-lg mb-2">
+            <div class="input-group-prepend w-25">
+              <span class="input-group-text w-100">Minutes</span>
+            </div>
+            <input
+              class="form-control form-control-lg"
+              type="number"
+              name="minutes"
+              placeholder="Minutes"
+              value="{{ run[4] }}"
+            />
+          </div>
+          <div class="input-group input-group-lg mb-2">
+            <div class="input-group-prepend w-25">
+              <span class="input-group-text w-100">Seconds</span>
+            </div>
+            <input
+              class="form-control form-control-lg"
+              type="number"
+              name="seconds"
+              placeholder="Seconds"
+              value="{{ run[5] }}"
+            />
+          </div>
+          <input
+            type="submit"
+            class="btn btn-dark btn-lg btn-block mb-2"
+            value="Update Run"
+          />
+          <a href="{{ url_for('delete', id=run[0])}}" class="text-muted"
+            >Delete Run</a
+          >
+        </div>
+      </form>
+      <br />
+      <br />
+    </div>
+  </div>
+</div>
+{% endblock %}

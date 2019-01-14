@@ -1,47 +1,28 @@
-{% extends 'layout.html' %}
-{% block body %}
-<div id="home-body-section">
-  <div class="dark-overlay">
-    <div class="body-inner container">
-      <h1 class="display-4">{{ name }}'s Stats</h1>
+{% extends 'layout.html' %} {% block body %}
+<div class="container h-100">
+  <br />
 
-      <br>
+  <h1 class="display-3 mb-5 text-center mt-5 resp-header">
+    {{ name }}'s Stats
+  </h1>
+  <p class="h4 text-center">Recent Runs:</p>
+  <ul class="list-unstyled text-center">
+    {% for run in runs %}
+    <li>{{ run[0] }}: {{ run[1] }} miles</li>
+    {% endfor %}
+  </ul>
 
-      <div class="card col-lg-5">
-        <div class="card-header lead">
-          Recent Runs:
-        </div>
-        <div class="card-body">
-          <ul class="list-unstyled">
-            {% for run in runs %}
-            <li class="lead">{{ run[0] }}: {{ run[1] }} miles</li>
-            {% endfor %}
-          </ul>
-        </div>
-      </div>
+  <br />
 
-      <br>
+  <p class="h4 text-center">Average Distance Last 30 Days:</p>
+  <p class="text-center">{{ avg_dist }}</p>
 
-      <div class="card col-lg-5">
-        <div class="card-header lead">
-          Average Distance:
-        </div>
-        <div class="card-body">
-          <p class="lead">{{ avg_dist }}</p>
-        </div>
-      </div>
+  <br />
 
-      <br>
+  <p class="h4 text-center">Average Pace Last 30 Days:</p>
+  <p class="text-center">{{ avg_pace }}</p>
 
-      <div class="card col-lg-5">
-        <div class="card-header lead">
-          Average Pace:
-        </div>
-        <div class="card-body">
-          <p class="lead">{{ avg_pace }}</p>
-        </div>
-      </div>
-  </div>
-</div>
+  <br />
+  <br />
 </div>
 {% endblock %}

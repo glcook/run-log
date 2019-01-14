@@ -10,7 +10,7 @@ def null_to_zero(form_input):
     if form_input is None or form_input == '':
         form_input = 0
     else:
-        form_input = form_input
+        form_input = int(form_input)
 
     return form_input
 
@@ -57,3 +57,21 @@ def time_to_pace(db_time):
     else:
         time_with_zeros = time_to_string(db_time)
         return time_with_zeros.lstrip('0:')
+
+def secs_to_hms(db_time):
+    """ Takes duration of run in seconds and returns
+        list of integer values for hours, minutes
+        and seconds individually. If duration is 0,
+        returns empty string.
+        
+        secs_to_hms(7854) --> [2, 10, 54]
+        secs_to_hms(3696) --> [1, 1, 36]
+        secs_to_hms(2486) --> ['', 41, 26]
+        secs_to_hms(0) --> ['', '', '']
+        """
+    hours = int(db_time / 3600)
+    mins = int(db_time / 60) % 60
+    secs = db_time % 60
+    hms = ['' if x == 0 else x for x in [hours, mins, secs]]
+
+    return hms

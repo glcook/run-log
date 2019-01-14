@@ -1,16 +1,60 @@
-{% extends 'layout.html' %}
-{% block header %}
-  <h1>All Runs</h1>
-{% endblock %}
-
-{% block body %}
-{% for run in runs %}
-  <h4 id="{{ run[0] }}">{{ run[1] }}<h4>
-  <ul>
-      <li>Distance: {{ run[2] }}</li>
-      <li>Time: {{ run[3] }}</li>
-      <li>Pace: {{ run[4] }}</li>
-      <li><a href="{{ url_for('delete', id=run[0])}}">Delete</a></li>
-  </ul>
-{% endfor %}
+{% extends 'layout.html' %} {% block body %}
+<div class="container">
+  <br />
+  <div class="row">
+    <h1 class="col-12 display-3 text-center my-5 resp-header">All Runs</h1>
+  </div>
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <div class="table-responsive">
+        <table
+          id="table_id"
+          class="display table table-hover table-sm table-borderless"
+        >
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Distance</th>
+              <th>Duration</th>
+              <th>Pace</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for run in runs %}
+            <tr>
+              <td data-toggle="tooltip" data-placement="top" title="Edit entry">
+                <a href="{{ url_for('edit', id=run[0]) }}" class="text-muted">
+                  {{ run[1] }}
+                </a>
+              </td>
+              <td>{{ run[2] }}</td>
+              <td>{{ run[3] }}</td>
+              <td>{{ run[4] }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<script
+  src="http://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+  integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+  integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+  crossorigin="anonymous"
+></script>
+<script>
+  // Init tooltips
+  $('[data-toggle="tooltip"]').tooltip();
+</script>
 {% endblock %}

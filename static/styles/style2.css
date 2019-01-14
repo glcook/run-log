@@ -1,0 +1,10 @@
+html,
+body {
+  height: 100%;
+}
+
+@media only screen and (max-width: 480px) {
+  .resp-header {
+    font-size: 2.5rem;
+  }
+}

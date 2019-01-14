@@ -1,7 +1,9 @@
-{% extends 'layout.html' %}
-{% block header %}
-{% endblock %}
-
-{% block body %}
-  <h3>{{ message }}</h3>
+{% extends 'layout.html' %} {% block header %} {% endblock %} {% block body %}
+<div class="container h-100">
+  <div class="row h-100">
+    <div class="col-md-6 offset-md-3 my-auto">
+      <p class="display-4 text-center my-auto resp-header">{{ message }}</p>
+    </div>
+  </div>
+</div>
 {% endblock %}
